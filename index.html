@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forever With You ❤️</title>
+<meta charset="UTF-8">
+<style>
+body {
+    margin: 0;
+    text-align: center;
+    font-family: "Georgia", serif;
+    background: linear-gradient(to bottom, #ffe6f2, #ffd1e8);
+    overflow: hidden;
+}
+
+/* NS♥️ BACKGROUND */
+#nsBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 28px;
+    color: rgba(214, 51, 132, 0.12);
+    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+}
+.nsCell {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* GOLD TEXT */
+.gold {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(to right, #ffd700, #ffb703, #ffd700);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 1px 1px 5px rgba(255,215,0,0.6);
+}
+
+/* COUNTDOWN SCREEN */
+#countdownScreen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #ffe6f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: #d63384;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* PAGES */
+#proposalPage, #thanksPage {
+    display:none;
+}
+
+/* IMAGES */
+img {
+    width: 260px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px pink;
+}
+
+/* BUTTONS */
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    margin: 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+#yesBtn {
+    background:#ff66b2;
+    color:white;
+}
+#noBtn {
+    background:#999;
+    color:white;
+    position:absolute;
+}
+
+/* CURSOR HEARTS */
+.heart {
+    position:absolute;
+    font-size:22px;
+    pointer-events:none;
+    animation: floatUp 1.5s linear forwards;
+}
+@keyframes floatUp {
+    0%{transform:scale(1) translateY(0); opacity:1;}
+    100%{transform:scale(1.5) translateY(-80px); opacity:0;}
+}
+
+/* FALLING HEARTS */
+.fallingHeart {
+    position:absolute;
+    font-size:25px;
+    top:-50px;
+    animation: fall linear 5s infinite;
+}
+@keyframes fall {
+    from{transform:translateY(-50px);}
+    to{transform:translateY(110vh);}
+}
+
+/* FIREWORKS */
+#fireworks {
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+}
+
+/* CENTER SPARKLING RING (CLICK-THROUGH) */
+#ringWrapper {
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    z-index:5;
+    pointer-events:none;   /* THIS FIXES YOUR YES BUTTON */
+}
+
+#ring {
+    font-size:90px;
+    animation: spinRing 3s linear infinite, floatRing 2s ease-in-out infinite;
+}
+
+#sparkle {
+    position:absolute;
+    top:50%; left:50%;
+    width:200px; height:200px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,215,0,0.6), rgba(255,182,193,0));
+    filter:blur(8px);
+    animation:sparkle 1.5s infinite alternate;
+    z-index:-1;
+}
+
+@keyframes sparkle {
+    from{opacity:.4; transform:translate(-50%,-50%) scale(1);}
+    to{opacity:1; transform:translate(-50%,-50%) scale(1.2);}
+}
+
+@keyframes spinRing {
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes floatRing {
+    0%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-15px) rotate(180deg);}
+    100%{transform:translateY(0) rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NS♥️ BACKGROUND -->
+<div id="nsBackground">
+<script>
+for(let i=0;i<64;i++){
+ document.write('<div class="nsCell">NS♥️</div>');
+}
+</script>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<!-- COUNTDOWN -->
+<div id="countdownScreen">5</div>
+
+<canvas id="fireworks"></canvas>
+
+<!-- CENTER SPARKLING RING -->
+<div id="ringWrapper">
+  <div id="sparkle"></div>
+  <div id="ring">💍</div>
+</div>
+
+<div id="proposalPage">
+  <h2>
+  My dearest love, my heart’s safest home ❤️<br><br>
+  Will you honor me by becoming<br>
+  <span class="gold">The wife of Mohamed Naufal?</span> 💍
+  </h2>
+
+  <img src="ourphoto.jpg"><br><br>
+
+  <button id="yesBtn" onclick="sayYes()">Yes, forever 💖</button>
+  <button id="noBtn" onmouseover="moveNo()">No (but you can't 😜)</button>
+</div>
+
+<div id="thanksPage">
+  <h2>
+  You made me the happiest man alive ❤️<br><br>
+  Thank you for being my girlfriend,<br>
+  and now my beautiful wife 💍<br><br>
+  <span class="gold">Mrs. Mohamed Naufal</span>
+  </h2>
+
+  <img src="thanksphoto.jpg">
+</div>
+
+<script>
+// COUNTDOWN
+let count = 5;
+let timer = setInterval(() => {
+  document.getElementById("countdownScreen").innerText = count;
+  count--;
+
+  if(count < 0){
+    clearInterval(timer);
+    document.getElementById("countdownScreen").style.display = "none";
+    document.getElementById("ringWrapper").style.display = "none"; // HIDE RING AFTER COUNTDOWN
+    document.getElementById("proposalPage").style.display = "block";
+    startFallingHearts();
+  }
+}, 1000);
+
+// MOVE NO BUTTON
+function moveNo(){
+ let x = Math.random() * (window.innerWidth - 120);
+ let y = Math.random() * (window.innerHeight - 120);
+ document.getElementById("noBtn").style.left = x + "px";
+ document.getElementById("noBtn").style.top = y + "px";
+}
+
+// CURSOR HEARTS
+document.addEventListener("mousemove", e => {
+ let h = document.createElement("div");
+ h.className = "heart";
+ h.innerHTML = "💖";
+ document.body.appendChild(h);
+ h.style.left = e.pageX + "px";
+ h.style.top = e.pageY + "px";
+ setTimeout(()=>h.remove(),1500);
+});
+
+// FALLING HEARTS
+function startFallingHearts(){
+ setInterval(()=>{
+   let h = document.createElement("div");
+   h.className = "fallingHeart";
+   h.innerHTML = "💗";
+   h.style.left = Math.random()*window.innerWidth + "px";
+   document.body.appendChild(h);
+   setTimeout(()=>h.remove(),5000);
+ }, 500);
+}
+
+// FIREWORKS
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let particles = [];
+
+function createFirework(x,y){
+ for(let i=0;i<80;i++){
+   particles.push({
+     x:x, y:y,
+     vx:Math.random()*6-3,
+     vy:Math.random()*6-3,
+     life:100,
+     color:`hsl(${Math.random()*360},100%,60%)`
+   });
+ }
+}
+
+function animate(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ for(let i=particles.length-1;i>=0;i--){
+   let p = particles[i];
+   p.x += p.vx;
+   p.y += p.vy;
+   p.life--;
+   ctx.fillStyle = p.color;
+   ctx.beginPath();
+   ctx.arc(p.x,p.y,3,0,Math.PI*2);
+   ctx.fill();
+   if(p.life<=0) particles.splice(i,1);
+ }
+ requestAnimationFrame(animate);
+}
+animate();
+
+// YES CLICK
+function sayYes(){
+ document.getElementById("proposalPage").style.display = "none";
+ document.getElementById("thanksPage").style.display = "block";
+
+ for(let i=0;i<5;i++){
+   setTimeout(()=>{
+     createFirework(
+       Math.random()*window.innerWidth,
+       Math.random()*window.innerHeight/2
+     );
+   }, i*300);
+ }
+}
+</script>
+</body>
+</html>
